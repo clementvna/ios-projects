@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CheckoutView: View {
+    
     @ObservedObject var order: Order
     
     @State private var confirmationMessage = ""
@@ -26,7 +27,7 @@ struct CheckoutView: View {
                 }
                 .frame(height: 233)
                 
-                Text("Your total is \(order.cost, format: .currency(code: "USD"))")
+                Text("Your total is \(order.data.cost, format: .currency(code: "USD"))")
                     .font(.title)
                 
                 Button("Place order", action: {
@@ -52,7 +53,7 @@ struct CheckoutView: View {
     }
     
     func placeOrder() async {
-        guard let encoded = try? JSONEncoder().encode(order) else {
+        guard let encoded = try? JSONEncoder().encode(order.data) else {
             print("Failed to encode order")
             return
         }
@@ -64,8 +65,8 @@ struct CheckoutView: View {
         
         do {
             let (data, _) = try await URLSession.shared.upload(for: request, from: encoded)
-            let decodedOrder = try JSONDecoder().decode(Order.self, from: data)
-            confirmationMessage = "Your order for \(decodedOrder.quantity) \(Order.types[decodedOrder.type].lowercased()) cupcakes is on its way!"
+            let decodedOrder = try JSONDecoder().decode(OrderData.self, from: data)
+            confirmationMessage = "Your order for \(decodedOrder.quantity) \(OrderData.types[decodedOrder.type].lowercased()) cupcakes is on its way!"
             showingConfirmation = true
         } catch {
             print("Checkout failed.")

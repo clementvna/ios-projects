@@ -7,9 +7,15 @@
 
 import SwiftUI
 
-struct Order: Codable {
+class Order: ObservableObject {
     
-    var types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
+    @Published var data = OrderData()
+    
+}
+
+struct OrderData: Codable {
+    
+    static let types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
     
     var type = 0
     var quantity = 3
@@ -36,7 +42,7 @@ struct Order: Codable {
             streetAddress.trimmingCharacters(in: .whitespaces).isEmpty ||
             city.trimmingCharacters(in: .whitespaces).isEmpty ||
             zip.trimmingCharacters(in: .whitespaces).isEmpty {
-             return false
+            return false
         }
         
         return true
@@ -46,15 +52,15 @@ struct Order: Codable {
         // $2 per cake
         var cost = Double(quantity) * 2
         
-        // Comlicated cakes cost more
-        cost += Double(type / 2)
+        // complicated cakes cost more
+        cost += (Double(type) / 2)
         
-        // $1 per cake more for extra frosting
+        // $1/cake for extra frosting
         if extraFrosting {
             cost += Double(quantity)
         }
         
-        // $0.50 per cake more for extra sprinkles
+        // $0.50/cake for sprinkles
         if addSprinkles {
             cost += Double(quantity) / 2
         }

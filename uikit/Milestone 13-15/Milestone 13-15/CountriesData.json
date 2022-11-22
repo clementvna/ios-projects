@@ -1,0 +1,20 @@
+{
+    "countries": [
+        {
+            "name": "France",
+            "motto": "Liberté, égalité, fraternité",
+            "hymn": "La Marseillaise",
+            "nationalDay": "July, 14th",
+            "capital": "Paris",
+            "currency": "Euro"
+        },
+        {
+            "name": "Germany",
+            "motto": "Einigkeit und Recht und Freiheit",
+            "hymn": "Deutschlandlied",
+            "nationalDay": "October, 3th",
+            "capital": "Berlin",
+            "currency": "Euro"
+        }
+    ]
+}
